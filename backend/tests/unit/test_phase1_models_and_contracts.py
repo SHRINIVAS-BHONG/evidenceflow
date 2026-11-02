@@ -292,3 +292,28 @@ def test_models_lifecycle_and_constraints():
 
     finally:
         db.close()
+
+
+def test_cors_preflight_allows_render_and_localhost():
+    from starlette.testclient import TestClient
+    from app.main import app
+
+    client = TestClient(app)
+    for origin in [
+        "https://evidenceflow-1.onrender.com",
+        "https://evidenceflow-hd3d.onrender.com",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+    ]:
+        resp = client.options(
+            "/api/health",
+            headers={
+                "Origin": origin,
+                "Access-Control-Request-Method": "GET",
+            },
+        )
+        assert resp.status_code == 200, f"Failed preflight for {origin}"
+        assert resp.headers.get("access-control-allow-origin") == origin
+        assert resp.headers.get("access-control-allow-credentials") == "true"
+

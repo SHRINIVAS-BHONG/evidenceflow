@@ -56,14 +56,25 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # CORS configuration
+    # CORS configuration: allow localhost/Render origins and any configured CORS_ORIGINS
+    cors_origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+    ]
+    if settings.CORS_ORIGINS:
+        for origin in settings.CORS_ORIGINS.split(","):
+            cleaned = origin.strip()
+            if cleaned and cleaned not in cors_origins:
+                cors_origins.append(cleaned)
+
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=(
-            ["http://localhost:5173", "http://127.0.0.1:5173"]
-            if settings.ENVIRONMENT != "production"
-            else []
-        ),
+        allow_origins=cors_origins,
+        allow_origin_regex=r"https://.*\.onrender\.com|http://(localhost|127\.0\.0\.1)(:\d+)?",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

@@ -36,6 +36,7 @@ class Settings(BaseSettings):
     HOST: str = "127.0.0.1"
     PORT: int = 8000
     ENVIRONMENT: str = "development"
+    CORS_ORIGINS: str = ""
 
 
 settings = Settings()
