@@ -106,7 +106,7 @@ export function Header({
             <div className="relative flex items-center">
               <select
                 id="active-review"
-                aria-label="Active Review"
+                aria-label="Review"
                 className="appearance-none bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 text-slate-900 dark:text-slate-100 text-xs font-semibold rounded-lg pl-2.5 pr-7 py-1.5 truncate max-w-[180px] sm:max-w-xs cursor-pointer focus:outline-none focus:ring-1 focus:ring-teal-500 transition"
                 value={activeReviewId || ''}
                 onChange={e => onSelectReview(e.target.value)}

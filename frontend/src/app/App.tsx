@@ -27,9 +27,9 @@ import { NavTab, Sidebar } from './Sidebar';
 export function App() {
   const [view, setView] = useState<'landing' | 'workspace'>(() => {
     try {
-      return (localStorage.getItem('evidenceflow_view') as 'landing' | 'workspace') || 'workspace';
+      return (localStorage.getItem('evidenceflow_view') as 'landing' | 'workspace') || 'landing';
     } catch {
-      return 'workspace';
+      return 'landing';
     }
   });
 
@@ -163,10 +163,11 @@ export function App() {
           }}
         >
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-              Review Title:
+            <label htmlFor="review-title" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              Review title
             </label>
             <input
+              id="review-title"
               required
               maxLength={255}
               value={title}
@@ -177,10 +178,11 @@ export function App() {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-              PICO Research Question:
+            <label htmlFor="research-question" className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              Research question
             </label>
             <textarea
+              id="research-question"
               required
               maxLength={1000}
               value={question}
@@ -199,10 +201,11 @@ export function App() {
               Cancel
             </button>
             <button
+              aria-label="Create review"
               disabled={create.isPending || !title.trim() || !question.trim()}
               className="px-4 py-1.5 bg-teal-600 hover:bg-teal-500 rounded-lg text-xs font-semibold text-white disabled:opacity-50 shadow-sm transition"
             >
-              {create.isPending ? 'Creating…' : 'Create Systematic Review'}
+              {create.isPending ? 'Creating…' : 'Create review'}
             </button>
           </div>
         </form>
@@ -230,13 +233,14 @@ export function App() {
         <div className="p-16 text-center text-slate-500 dark:text-slate-400 space-y-4 max-w-md mx-auto">
           <h3 className="text-base font-bold text-slate-800 dark:text-slate-200">No Review Workspace Found</h3>
           <p className="text-xs leading-relaxed">
-            Initialize your first systematic review to formulate Boolean search expressions and screen literature records.
+            Create a review to define your question, add criteria and search the literature.
           </p>
           <button
             onClick={() => setCreating(true)}
+            aria-label="New review"
             className="px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 text-white font-semibold text-xs shadow-md transition"
           >
-            + Create Review
+            New review
           </button>
         </div>
       )}

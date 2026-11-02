@@ -332,4 +332,3 @@ export function HistoryDiffView({ onNavigateToConflicts }: HistoryDiffViewProps)
     </div>
   );
 }
-}
